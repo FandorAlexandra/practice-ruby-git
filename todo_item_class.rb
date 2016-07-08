@@ -10,15 +10,15 @@ class Item
 		return @done
 	end
 
-	def get_name
+	def name
 		return @name
 	end
 
-	def get_due_date
+	def due_date
 		return @due_date
 	end
 
-	def get_priority
+	def priority
 		return @priority
 	end
 
