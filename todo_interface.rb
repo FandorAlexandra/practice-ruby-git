@@ -39,11 +39,6 @@ def initialize_list
 	list_name = gets.chomp
 	list = ToDoList.new(list_name)
 	puts "Created To-Do List with name #{list.name}".blue
-
-	#add first item
-	puts "\nYou are now ready to add your first item!"
-	puts "Items consist of a name, due date, and priority (1 = high, 2 = medium, 3 = low)"
-	add(list)
 	return list
 end
 
@@ -66,7 +61,7 @@ def print_list(list)
 		completed = completed == 'y' ? true : false
 		break
 	end
-	puts "TODO LIST: #{list.name}"
+	puts "\nTODO LIST: #{list.name}".blue
 	if sort_type == 'p'
 		sorted_list = list.priority_list(completed)
 		sorted_list.each do |item|
@@ -76,6 +71,7 @@ def print_list(list)
 	else
 		sorted_list = list.due_date_list(completed)
 		sorted_list.each do |item|
+			mark_completed = item.done? ? " COMPLETED" : ""
 			puts "\"#{item.name}\" -- due: #{item.due_date} -- priority: #{item.priority}" + mark_completed
 		end
 	end
@@ -83,7 +79,7 @@ end
 
 
 def help
-	puts "TODO COMMANDS: "
+	puts "TODO COMMANDS: ".blue
 	print "print: ".blue
 	puts "Print out your list, ordered by priority or due date"
 
@@ -131,6 +127,7 @@ end
 
 def interact_with_list(list)
 	puts "Wow! You've now started a list called \"#{list.name}\"!"
+	puts "Items consist of a name, due date, and priority (1 = high, 2 = medium, 3 = low)"
 	puts "Now it's time to interact! Type \"help\" if you would like to know how to interact with your list"
 
 	while(true)
@@ -149,10 +146,10 @@ def interact_with_list(list)
 		when "EXIT"
 			exit
 		else
-			"I'm sorry, that is not a command I understand. Enter \"help\"
+			puts "I'm sorry, that is not a command I understand. Enter \"help\"
 			to see list of commands"
 		end
-		puts "What would you like to do now?"
+		puts "\nWhat would you like to do now?"
 	end
 end
 
