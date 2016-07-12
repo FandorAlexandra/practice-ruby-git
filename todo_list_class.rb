@@ -1,13 +1,10 @@
 require_relative 'todo_item_class.rb'
 
 class ToDoList
+	attr_reader :name
 	def initialize(name = "TODO")
 		@name = name
 		@list = Hash.new #maps name of item to item object
-	end
-
-	def name
-		return @name
 	end
 
 	def size
@@ -23,7 +20,7 @@ class ToDoList
 			return sorted_items
 		else
 			return sorted_items.select {
-				|item| !item.done?
+				|item| !item.done
 			}
 		end
 	end
@@ -37,7 +34,7 @@ class ToDoList
 			return sorted_items
 		else
 			return sorted_items.select {
-				|item| !item.done?
+				|item| !item.done
 			}
 		end
 	end

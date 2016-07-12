@@ -1,25 +1,13 @@
 class Item
+	attr_reader :name
+	attr_reader :due_date
+	attr_reader :priority
+	attr_reader :done
 	def initialize(name, due_date, priority)
 		@name = name
 		@due_date = due_date
 		@priority = priority
 		@done = false
-	end
-
-	def done?
-		return @done
-	end
-
-	def name
-		return @name
-	end
-
-	def due_date
-		return @due_date
-	end
-
-	def priority
-		return @priority
 	end
 
 	def mark_done

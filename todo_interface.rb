@@ -16,28 +16,28 @@ class ListRobot
 	end
 
 	def input_date
-		while(true)
+		loop do
 			puts "Now enter the due date in the form \"dd-mm-yyyy\": "
 			date_input = gets.chomp
 			d, m, y = date_input.split('-')
 			if Date.valid_date? y.to_i, m.to_i, d.to_i
 				begin
 				 	 return Date.parse(date_input)
-				 rescue Exception => e
-				 end
+				#rescue Exception => e
+				end
 			end
 			puts "Oops! Invalid date -- try again!".red
 		end
 	end
 
 	def input_priority
-		while(true)
+		loop do
 			puts "Now enter priority. Remember: 1 = high, 2 = medium, 3 = low"
 			priority = gets.chomp
 			if (1..3).include? priority.to_i
 				return priority.to_i
 			end
-			puts "Oops! Invalid priority -- try again!".red
+			puts "Oops! Invalid priority -- try again! ".red
 		end
 	end
 
@@ -52,36 +52,41 @@ class ListRobot
 		puts "Created To-Do List with name #{@list.name}".blue
 	end
 
-	def print_list
+	def get_sort_type
 		sort_type = ""
-		completed = ""
-		while(true)
-			puts "Would you like to sort your list by priority or due date? [p/d]"
+		puts "Would you like to sort your list by priority or due date? [p/d]"
+		sort_type = gets.chomp
+		while sort_type != 'p' && sort_type != 'd'
+			puts "Please enter 'p' for priority or 'd' for due date".red
 			sort_type = gets.chomp
-			if sort_type != 'p' && sort_type != 'd'
-				puts "Please enter 'p' for priority or 'd' for due date".red
-				next
-			end
-			puts "Would you like the list to include items that are completed? [y/n]"
-			completed = gets.chomp
-			if completed != 'y' && completed != 'n'
-				puts "Please enter 'y' to include completed items, or 'n' to not include them".red
-				next
-			end
-			completed = completed == 'y' ? true : false
-			break
 		end
+	end
+
+	def completed?
+		completed = ""
+		puts "Would you like the list to include items that are completed? [y/n]"
+		completed = gets.chomp
+		while completed != 'y' && completed != 'n'
+			puts "Please enter 'y' to include completed items, or 'n' to not include them".red
+			completed = gets.chomp
+		end
+		completed = completed == 'y' ? true : false
+	end
+
+	def print_list
+		sort_type = get_sort_type
+		completed = completed?
 		puts "\nTODO LIST: #{@list.name}".blue
 		if sort_type == 'p'
 			sorted_list = @list.priority_list(completed)
 			sorted_list.each do |item|
-				mark_completed = item.done? ? " COMPLETED" : ""
+				mark_completed = item.done ? " COMPLETED" : ""
 				puts "\"#{item.name}\" -- priority: #{item.priority} -- due: #{item.due_date}" + mark_completed
 			end
 		else
 			sorted_list = @list.due_date_list(completed)
 			sorted_list.each do |item|
-				mark_completed = item.done? ? " COMPLETED" : ""
+				mark_completed = item.done ? " COMPLETED" : ""
 				puts "\"#{item.name}\" -- due: #{item.due_date} -- priority: #{item.priority}" + mark_completed
 			end
 		end
@@ -140,7 +145,7 @@ class ListRobot
 		puts "Items consist of a name, due date, and priority (1 = high, 2 = medium, 3 = low)"
 		puts "Now it's time to interact! Type \"help\" if you would like to know how to interact with your list"
 
-		while(true)
+		loop do
 			input = gets.chomp
 			case input
 			when "help"
